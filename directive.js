@@ -19,6 +19,6 @@ new Vue({
     el: '#app',
     data : {
         amount: null,
-        souce: null,
+        sauce: null,
     }
 })
