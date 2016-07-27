@@ -16,14 +16,19 @@ A Vue.js directive implementing the select control with the [bootstrap-select](h
 ```javascript
 Vue.directive('selectpicker', {
     twoWay: true,
-    deep: true,
-
+    priority: 750,
     bind: function() {
         $(this.el).selectpicker().on("change", function(e) {
             this.set($(this.el).val());
         }.bind(this));
+        var observer = new MutationObserver(function () {
+            $(this.el).selectpicker('refresh').trigger('change');
+        }.bind(this));
+        var config = { attributes: false, childList: true, characterData: false, subtree: false};
+        observer.observe(this.el, config);
     },
     update: function (value) {
+        $(this.el).selectpicker('val', value);
         $(this.el).selectpicker('refresh').trigger("change");
     },
     unbind: function () {
